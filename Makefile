@@ -34,7 +34,7 @@ etc_dir=/etc/authbind
 #etc_dir=/Users/tj/local/authbind/etc/authbind
 
 INSTALL_USER=root
-INSTALL_GROUP=wheel
+INSTALL_GROUP=admin
 #INSTALL_USER=tj
 #INSTALL_GROUP=staff
 
