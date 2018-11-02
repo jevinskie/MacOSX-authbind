@@ -38,9 +38,9 @@ INSTALL_GROUP=wheel
 #INSTALL_USER=tj
 #INSTALL_GROUP=staff
 
-INSTALL_FILE	?= install -o $(INSTALL_USER) -g $(INSTALL_GROUP) -m 644 
-INSTALL_PROGRAM ?= install -o $(INSTALL_USER) -g $(INSTALL_GROUP) -m 755 -s
-INSTALL_DIR	?= install -o $(INSTALL_USER) -g $(INSTALL_GROUP) -m 755 -d
+INSTALL_FILE	?= install -m 644 
+INSTALL_PROGRAM ?= sudo install -o $(INSTALL_USER) -g $(INSTALL_GROUP) -m 755 -s
+INSTALL_DIR	?= install -m 755 -d
 STRIP		?= strip
 
 # Note that it's necessary to build for both architectures, in order to
@@ -82,15 +82,15 @@ all: $(TARGETS)
 install: $(TARGETS) install-man
 	mkdir -p $(bin_dir)
 	$(INSTALL_PROGRAM) authbind $(bin_dir)/.
-	chmod a+x $(bin_dir)/authbind
+	sudo chmod a+x $(bin_dir)/authbind
 	mkdir -p $(libexec_dir)
 	$(INSTALL_PROGRAM) helper $(libexec_dir)/.
-	chmod u+s $(libexec_dir)/helper
+	sudo chmod u+s $(libexec_dir)/helper
 	mkdir -p $(lib_dir)
 	$(INSTALL_FILE) $(LIBRARY)$(LIBEXT) $(lib_dir)/.
 #	$(STRIP) --strip-unneeded $(lib_dir)/$(LIBTARGET)
 #	ln -sf $(LIBTARGET) $(lib_dir)/$(LIBCANON)
-	$(INSTALL_DIR) $(etc_dir) $(etc_dir)/byport $(etc_dir)/byaddr $(etc_dir)/byuid
+	sudo $(INSTALL_DIR) -o $(INSTALL_USER) -g $(INSTALL_GROUP) $(etc_dir) $(etc_dir)/byport $(etc_dir)/byaddr $(etc_dir)/byuid
 
 install-man: $(MANPAGES_1) $(MANPAGES_8)
 	$(INSTALL_DIR) $(man1_dir) $(man8_dir)
